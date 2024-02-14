@@ -9,7 +9,7 @@ namespace TestTask.Services.Interfaces
 {
     public interface IOrderService
     {
-        public Task<Order> GetOrder();
+        public Task<Order?> GetOrder();
         public Task<List<Order>> GetOrders();
     }
     
@@ -22,7 +22,7 @@ namespace TestTask.Services.Interfaces
             _context = context;
         }
 
-        public async Task<Order> GetOrder()
+        public async Task<Order?> GetOrder()
         {
             var orderWithMaxAmount = await _context.Orders
                 .OrderByDescending(o => o.Price * o.Quantity)

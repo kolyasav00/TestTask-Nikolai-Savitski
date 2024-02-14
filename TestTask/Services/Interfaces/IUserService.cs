@@ -7,6 +7,12 @@ using TestTask.Data;
 
 namespace TestTask.Services.Interfaces
 {
+    public interface IUserService
+    {
+        public Task<User?> GetUser();
+
+        public Task<List<User>> GetUsers();
+    }
     
     public class UserService : IUserService
     {
@@ -17,22 +23,20 @@ namespace TestTask.Services.Interfaces
             _context = context;
         }
 
-        public async Task<User> GetUser()
+        public async Task<User?> GetUser()
         {
-            var userWithMostOrders = _context.Users.OrderByDescending(u => u.Orders.Count).FirstOrDefault();
+            var userWithMostOrders = _context.Users.
+                OrderByDescending(u => u.Orders.Count).FirstOrDefault();
+            
             return userWithMostOrders;
         }
 
         public async Task<List<User>> GetUsers()
         {
-            var inactiveUsers = _context.Users.Where(u => u.Status == UserStatus.Inactive).ToList();
+            var inactiveUsers = _context.Users.
+                Where(u => u.Status == UserStatus.Inactive).ToList();
+            
             return inactiveUsers;
         }
-    }
-    public interface IUserService
-    {
-        public Task<User?> GetUser();
-
-        public Task<List<User>> GetUsers();
     }
 }
