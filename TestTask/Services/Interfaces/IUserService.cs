@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using TestTask.Enums;
 using TestTask.Models;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using TestTask.Data;
 
 namespace TestTask.Services.Interfaces
@@ -25,16 +26,16 @@ namespace TestTask.Services.Interfaces
 
         public async Task<User?> GetUser()
         {
-            var userWithMostOrders = _context.Users.
-                OrderByDescending(u => u.Orders.Count).FirstOrDefault();
+            var userWithMostOrders = await _context.Users.
+                OrderByDescending(u => u.Orders.Count).FirstOrDefaultAsync();
             
             return userWithMostOrders;
         }
 
         public async Task<List<User>> GetUsers()
         {
-            var inactiveUsers = _context.Users.
-                Where(u => u.Status == UserStatus.Inactive).ToList();
+            var inactiveUsers = await _context.Users.
+                Where(u => u.Status == UserStatus.Inactive).ToListAsync();
             
             return inactiveUsers;
         }
